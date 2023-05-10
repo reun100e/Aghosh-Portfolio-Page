@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormik } from "formik";
+import { Field, useFormik } from "formik";
 import {
   Box,
   Button,
@@ -37,14 +37,13 @@ const LandingSection = () => {
       type: "",
       comment: "",
     },
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
       try {
         await submit(values); // Assuming submit is an async function that makes an API call
-        onOpen("success", `Thanks for your submission ${values.firstName}, we will get back to
-        you shortly!`);
-        resetForm();
+        onOpen("success", "Form submitted successfully");
+        formik.resetForm();
       } catch (error) {
-        onOpen("error", "Something went wrong, please try again later!");
+        onOpen("error", "An error occurred while submitting the form");
       }
     },
     validationSchema,
@@ -113,7 +112,7 @@ const LandingSection = () => {
               </FormControl>
               <FormControl
                 isInvalid={formik.errors.comment && formik.touched.comment}
-              >
+                >
                 <FormLabel htmlFor="comment">Your message</FormLabel>
                 <Textarea
                   id="comment"
