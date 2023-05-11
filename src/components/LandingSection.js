@@ -16,14 +16,14 @@ const LandingSection = () => (
     backgroundColor="#2A4365"
   >
     <VStack spacing={4}>
-      <Avatar src="https://i.imgur.com/kM0Z0Vz.jpg" size="xl" />
-      <Heading size="xl" color="white">
+      <Avatar src="https://i.imgur.com/kM0Z0Vz.jpg" size="2xl" />
+      <Heading size="xs" color="white">
         {greeting}
       </Heading>
-      <Heading size="md" color="white">
+      <Heading size="xl" color="white">
         {bio1}
       </Heading>
-      <Heading size="md" color="white">
+      <Heading size="xl" color="white">
         {bio2}
       </Heading>
     </VStack>

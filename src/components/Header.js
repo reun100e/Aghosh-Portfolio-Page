@@ -57,6 +57,38 @@ const Header = () => {
     };
   }, [prevScrollPos]);
 
+  const handleContactClick = (event) => {
+    event.preventDefault();
+    const contactSection = document.getElementById("contactme-section");
+    const yOffset = -30; // Adjust the offset based on your layout
+    const targetY =
+      contactSection.getBoundingClientRect().top +
+      window.pageYOffset +
+      yOffset;
+  
+    const scrollDuration = 2.5; // Set the desired scroll duration (in milliseconds)
+    const startingY = window.pageYOffset;
+    let currentTime = 0;
+  
+    const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  
+    const animateScroll = () => {
+      currentTime += 1 / 60;
+  
+      const scrollProgress = Math.min(currentTime / scrollDuration, 1);
+      const easedProgress = easeInOutQuad(scrollProgress);
+      const newY = startingY + (targetY - startingY) * easedProgress;
+  
+      window.scrollTo(0, newY);
+  
+      if (scrollProgress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+  
+    animateScroll();
+  };
+
   return (
     <Box
       position="fixed"
@@ -87,7 +119,9 @@ const Header = () => {
           <nav>
             <HStack spacing={8}>
               {/* Add links to Projects and Contact me section */}
-              <a href="#contactme-section">Contact me</a>
+              <a href="#contactme-section" onClick={handleContactClick}>
+                Contact me
+              </a>
             </HStack>
           </nav>
         </HStack>
