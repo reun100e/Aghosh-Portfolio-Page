@@ -20,7 +20,7 @@ const socials = [
   },
   {
     icon: faLinkedin,
-    url: "https://www.linkedin.com/in/aghoshbprasad",
+    url: "https://www.linkedin.com/in/aghoshbprasad/",
   },
   {
     icon: faMedium,
@@ -57,36 +57,58 @@ const Header = () => {
     };
   }, [prevScrollPos]);
 
+function Pagescroll (projectsSection, yOffset) {
+  const targetY =
+  projectsSection.getBoundingClientRect().top +
+  window.pageYOffset +
+  yOffset;
+
+const scrollDuration = 2.5; // Set the desired scroll duration (in milliseconds)
+const startingY = window.pageYOffset;
+let currentTime = 0;
+
+const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+const animateScroll = () => {
+  currentTime += 1 / 60;
+
+  const scrollProgress = Math.min(currentTime / scrollDuration, 1);
+  const easedProgress = easeInOutQuad(scrollProgress);
+  const newY = startingY + (targetY - startingY) * easedProgress;
+
+  window.scrollTo(0, newY);
+
+  if (scrollProgress < 1) {
+    requestAnimationFrame(animateScroll);
+  }
+};
+
+animateScroll();
+}
+
+  const handleHomeClick = (event) => {
+    event.preventDefault();
+    const section = document.getElementById("avatar");
+    const yOffset = -510; // Adjust the offset based on your layout
+    Pagescroll(section, yOffset)
+
+  };
+
+
   const handleContactClick = (event) => {
     event.preventDefault();
-    const contactSection = document.getElementById("contactme-section");
+    const section = document.getElementById("contactme-section");
     const yOffset = -30; // Adjust the offset based on your layout
-    const targetY =
-      contactSection.getBoundingClientRect().top +
-      window.pageYOffset +
-      yOffset;
-  
-    const scrollDuration = 2.5; // Set the desired scroll duration (in milliseconds)
-    const startingY = window.pageYOffset;
-    let currentTime = 0;
-  
-    const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-  
-    const animateScroll = () => {
-      currentTime += 1 / 60;
-  
-      const scrollProgress = Math.min(currentTime / scrollDuration, 1);
-      const easedProgress = easeInOutQuad(scrollProgress);
-      const newY = startingY + (targetY - startingY) * easedProgress;
-  
-      window.scrollTo(0, newY);
-  
-      if (scrollProgress < 1) {
-        requestAnimationFrame(animateScroll);
-      }
-    };
-  
-    animateScroll();
+    Pagescroll(section, yOffset)
+
+  };
+
+  const handleProjectsClick = (event) => {
+    event.preventDefault();
+    const section = document.getElementById("projects-section");
+    const yOffset = -80; // Adjust the offset based on your layout
+    Pagescroll(section, yOffset);
+
   };
 
   return (
@@ -119,6 +141,12 @@ const Header = () => {
           <nav>
             <HStack spacing={8}>
               {/* Add links to Projects and Contact me section */}
+              <a href="#avatar" onClick={handleHomeClick}>
+                Home
+              </a>
+              <a href="#projects-section" onClick={handleProjectsClick}>
+                Projects
+              </a>
               <a href="#contactme-section" onClick={handleContactClick}>
                 Contact me
               </a>
